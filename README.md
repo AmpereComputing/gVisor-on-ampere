@@ -14,4 +14,4 @@ An article describing how to build and install gVisor (ptrace implementation).
 
 References used while generating information for these articles.
 
-* [References](References.md)
+* [References](REFERENCES.md)
