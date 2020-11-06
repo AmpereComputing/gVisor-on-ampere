@@ -189,10 +189,3 @@ Update /etc/docker/daemon.json as follows:
 ```
 docker run --runtime=runsc-ptrace hello-world
 ```
-
-## References
-
-* [gVisor Documentation](https://gvisor.dev/docs/)
-* [gVisor ARM Compatibility](https://gvisor.dev/docs/user_guide/compatibility/linux/arm64/)
-* [The "patch" mentioned in the *Update to Kernel 5.5"](https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u)
-
