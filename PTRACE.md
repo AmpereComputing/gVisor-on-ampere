@@ -35,7 +35,7 @@ In this post, we will discuss how to build, install and run [gVisor](https://git
 
 ### Operating System
 
-At the time of the writing Ubuntu 20.04 was the ideal choice of OS gVisor based on the upstream documentation.  Installing Ubuntu is outside the scope of this document.  However the Ubuntu 20.04.1 server install image for Arm64 can be downloaded from the following URL:
+At the time of this writing Ubuntu 20.04 was the ideal choice of OS gVisor based on the upstream documentation.  Installing Ubuntu is outside the scope of this document.  However the Ubuntu 20.04.1 server install image for Arm64 can be downloaded from the following URL:
 
 * [http://cdimage.ubuntu.com/ubuntu/releases/20.04.1/release/ubuntu-20.04.1-live-server-arm64.iso](http://cdimage.ubuntu.com/ubuntu/releases/20.04.1/release/ubuntu-20.04.1-live-server-arm64.iso)
 
