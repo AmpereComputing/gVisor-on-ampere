@@ -109,8 +109,11 @@ drwxrwxr-x  2 1000 1000  4096 Nov  6 13:31 vdso
 drwxrwxr-x  3 1000 1000  4096 Nov  6 13:31 webhook
 drwxrwxr-x 11 1000 1000  4096 Nov  6 13:31 website
 ```
-
-Using a text editor open the WORKSPACE file.  To download the ARM64 Go binaries you must find the following lines:
+It is necessary to modify the WORKSPACE file located in the root of the source project
+directory previously cloned from git sources with information needed to download arm64
+binaries as part of the building process. Using a text editor open the WORKSPACE file.
+To configure the download of the arm64 `Golang` binaries you must first locate the
+following lines in the WORKSPACE file:
 
 ```
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
@@ -120,7 +123,7 @@ go_rules_dependencies()
 go_register_toolchains(go_version = "1.15.2")
 ```
 
-Then modify the WORKSPACE file with the following information for Arm64:
+Replace the lines with the text below:
 
 ```
 load("@io_bazel_rules_go//go:deps.bzl", "go_download_sdk", “go_rules_dependencies")
@@ -136,13 +139,17 @@ go_download_sdk(name = "go_sdk", urls=["https://golang.org/dl/{}",],
 
 ## Build gVisor
 
-Once you have successfully edited the WORKSPACE file replacing the information needed to successfully retrieve the necessary arm64 binaries you are ready to begin building gVisor.
+Once you have successfully edited the WORKSPACE file replacing the information needed to 
+successfully retrieve the necessary arm64 binaries you are ready to begin building gVisor
+on Ampere platforms.
 
 
 ```
 make runsc
 ```
-At the end of the compile, the output will have a statement similar to the following, which indicates the location of the runsc binary:
+
+At the end of the compile, the output will have a statement similar to the following,
+which indicates the location of the runsc binary:
 
 ```
 Target //runsc:runsc up-to-date:
