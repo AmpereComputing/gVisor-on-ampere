@@ -2,8 +2,6 @@
 
 # gVisor-on-ampere
 
-[Back](README.md]
-
 The following is a series of documents and instructions for building and installing gVisor with Ampere products.
 
 
