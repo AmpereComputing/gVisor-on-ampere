@@ -7,8 +7,8 @@ The following is a series of documents and instructions for building and install
 
 ## Building and installing  gVisor (ptrace)
 
-An article describing how to build and deploy gVisor implemented using ptrace.
-PTRACE.md
+An article describing how to build and install gVisor (ptrace implementation).
+* [ptrace](PTRACE.md)
 
 ## References
 
