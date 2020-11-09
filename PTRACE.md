@@ -9,7 +9,6 @@
   * [Kernel 5.5. or Newer](#kernel-5-5-or-newer)
 * [Getting started](#getting-started)
   * [Download the gVisor Code](#download-the-gvisor-code)
-  * [Modifications for Arm64](#modifications-for-arm64)
 * [Build gVisor](#build-gvisor)
 * [Make the compiled binary available for use:](#make-the-compiled-binary-available-for-use)
 * [Update Docker for the gVisor Runtime](#update-docker-for-the-gvisor-runtime)
@@ -74,67 +73,6 @@ remote: Compressing objects: 100% (155/155), done.
 remote: Total 91378 (delta 80), reused 85 (delta 39), pack-reused 91184
 Receiving objects: 100% (91378/91378), 60.10 MiB | 25.60 MiB/s, done.
 Resolving deltas: 100% (68220/68220), done.
-```
-
-### Modifications for Arm64
-
-Some changes are necessary to sucessfully build Arm64 binaries of gVisor.
-Locate the WORKSPACE file in the root level of the `gvisor` project directory you cloned with git.
-
-```
-$ ls -n
-total 232
--rw-rw-r--  1 1000 1000   365 Nov  6 13:31 AUTHORS
--rw-rw-r--  1 1000 1000  3317 Nov  6 13:31 BUILD
--rw-rw-r--  1 1000 1000  4481 Nov  6 13:31 CODE_OF_CONDUCT.md
--rw-rw-r--  1 1000 1000  4328 Nov  6 13:31 CONTRIBUTING.md
--rw-rw-r--  1 1000 1000  5410 Nov  6 13:31 GOVERNANCE.md
--rw-rw-r--  1 1000 1000 12519 Nov  6 13:31 LICENSE
--rw-rw-r--  1 1000 1000 19957 Nov  6 13:31 Makefile
--rw-rw-r--  1 1000 1000  4510 Nov  6 13:31 README.md
--rw-rw-r--  1 1000 1000   466 Nov  6 13:31 SECURITY.md
--rw-rw-r--  1 1000 1000 42095 Nov  6 13:31 WORKSPACE             <-- EDIT THIS FILE
-drwxrwxr-x  2 1000 1000  4096 Nov  6 13:31 debian
-drwxrwxr-x  4 1000 1000  4096 Nov  6 13:31 g3doc
--rw-rw-r--  1 1000 1000  3238 Nov  6 13:31 go.mod
--rw-rw-r--  1 1000 1000 49126 Nov  6 13:31 go.sum
-drwxrwxr-x 10 1000 1000  4096 Nov  6 13:31 images
--rw-rw-r--  1 1000 1000  9639 Nov  6 13:31 nogo.yaml
-drwxrwxr-x 58 1000 1000  4096 Nov  6 13:31 pkg
-drwxrwxr-x 13 1000 1000  4096 Nov  6 13:31 runsc
-drwxrwxr-x  4 1000 1000  4096 Nov  6 13:31 shim
-drwxrwxr-x 18 1000 1000  4096 Nov  6 13:31 test
-drwxrwxr-x 15 1000 1000  4096 Nov  6 13:31 tools
-drwxrwxr-x  2 1000 1000  4096 Nov  6 13:31 vdso
-drwxrwxr-x  3 1000 1000  4096 Nov  6 13:31 webhook
-drwxrwxr-x 11 1000 1000  4096 Nov  6 13:31 website
-```
-It is necessary to modify the WORKSPACE file located in the root of the source project
-directory previously cloned from git sources with information needed to download arm64
-binaries as part of the building process. Using a text editor open the WORKSPACE file.
-To configure the download of the arm64 `Golang` binaries you must first locate the
-following lines in the WORKSPACE file:
-
-```
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-
-go_rules_dependencies()
-
-go_register_toolchains(go_version = "1.15.2")
-```
-
-Replace the lines with the text below:
-
-```
-load("@io_bazel_rules_go//go:deps.bzl", "go_download_sdk", “go_rules_dependencies")
-
-go_rules_dependencies()
-
-go_download_sdk(name = "go_sdk", urls=["https://golang.org/dl/{}",],
- sdks = {
- "linux_arm64": ("go1.15.linux-arm64.tar.gz", "7e18d92f61ddf480a4f9a57db09389ae7b9dadf68470d0cb9c00d734a0c57f8d"),
- },
-)
 ```
 
 ## Build gVisor
