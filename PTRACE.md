@@ -7,8 +7,7 @@
 * [Requirements](#requirements)
   * [Operating System](#operating-system)
   * [Kernel 5.5. or Newer](#kernel-5-5-or-newer)
-* [Getting started](#getting-started)
-  * [Download the gVisor Code](#download-the-gvisor-code)
+* [Download the gVisor Code](#download-the-gvisor-code)
 * [Build gVisor](#build-gvisor)
 * [Make the compiled binary available for use:](#make-the-compiled-binary-available-for-use)
 * [Update Docker for the gVisor Runtime](#update-docker-for-the-gvisor-runtime)
@@ -19,11 +18,11 @@
 
 ## Introduction
 
-Here at Ampere Computing we are always interested in emerging cloud native technologies as interesting workloads for our cloud optimized Ampere(R) Altra(TM) Arm64 processors. [gVisor](https://github.com/google/gvisor) is an active open source software project originally created by Google that provides an application kernel for containers. The [gVisor](https://github.com/google/gvisor) project ecosystem and community of [contributors](https://github.com/google/gvisor/graphs/contributors) continues to make regular improvements to gVisor for ARM64 platforms.  In fact, in recent months, [improvements](https://github.com/google/gvisor/pulse)  have been coming in almost weekly.  
+Here at Ampere Computing we are always interested in emerging cloud native technologies as interesting workloads for our cloud optimized Ampere(R) Altra(TM) Arm64 processors. [gVisor](https://github.com/google/gvisor) is an active open source software project originally created by Google that provides an application kernel for containers. The [gVisor](https://github.com/google/gvisor) project ecosystem and community of [contributors](https://github.com/google/gvisor/graphs/contributors) continues to make regular improvements to gVisor for ARM64 platforms.  In fact, in recent months, [ARM64 improvements](https://github.com/google/gvisor/pulse) have been coming in almost weekly.  
 
 From a technology perspective, [gVisor](https://github.com/google/gvisor) was written in [Golang](https://golang.org/) and is often used as a method to sandbox application containers by providing a substantial portion of the Linux operating system surface. Sandboxing can be thought of as an isolation boundary for greater security between the application and the Linux kernel running on the host.  This isolation boundary, or `sandbox` between the application and the host kernel is provided by gVisor's `runsc` binary.  The `runsc` binary implements an [Open Container Initiative (OCI)](https://opencontainers.org/) compliant runtime which integrates with Docker and Kubernetes, making it simple to run sandboxed containers in cloud native environments.
 
-gVisor currently requires an abstraction which it calls a `platform` to implement the sandboxing mechanisms, currently the avaiable platforms are `ptrace` and `KVM`.  There are different tradeoffs between each `Platform` which generally are focused around performance and hardware requirements for running gVisor.  To describe it in an overly simplistic way, the platform implemention depends on the context in which `runsc` is executing, for example virtualized platforms would be limited to systems that do not require hardware virtualization.  The `ptrace` platform executes user code with out allowing it to execute host system calls, whereas the KVM platform uses kernel and hardware virtualization to allow gVisor to act as both guest OS and Virtual Machine Manager.  For more information regarding gVisor platforms please consult with upstream documenation on the subject located here:
+gVisor currently requires an abstraction which it calls a `platform` to implement the sandboxing mechanisms; currently available platforms are `ptrace` and `KVM`.  There are different tradeoffs between each `Platform` which generally are focused around performance and hardware requirements for running gVisor.  To describe it in an overly simplistic way, the platform implemention depends on the context in which `runsc` is executing, for example virtualized platforms would be limited to systems that do not require hardware virtualization.  The `ptrace` platform executes user code with out allowing it to execute host system calls, whereas the KVM platform uses kernel and hardware virtualization to allow gVisor to act as both guest OS and Virtual Machine Manager.  For more information regarding gVisor platforms please consult with upstream documenation on the subject located here:
 
 * [https://gvisor.dev/docs/architecture_guide/platforms/#implementations](https://gvisor.dev/docs/architecture_guide/platforms/#implementations)
 
@@ -56,13 +55,11 @@ If you are planning on using gVisor with KVM, the Linux Kernel Virtual Machine, 
 )
 
 Obviously because the patches are already included in kernels 5.5 and newer we strong suggest staying on newer kernels for the best results.
-Please note: using ptrace with older kernels can be used, and may work however your results and experience may vary.  Additinoally please note that the current gVisor implementations only support kernels configured with 4K pages sizes.
+Please note: using ptrace with older kernels can be used, and may work however your results and experience may vary.  Additionally please note that the current gVisor implementations only support kernels configured with 4K-page sizes.
 
-## Getting started
+## Download the latest gVisor Code
 
-### Download the latest gVisor Code
-
-For the best experience with building gvisor, it is recommend that you pull the `master` branch directly from the [upstream source code](https://github.com/google/gvisor) located on on GitHub.
+For the best experience with building gvisor, it is recommended that you pull the `master` branch directly from the [upstream source code](https://github.com/google/gvisor) located on GitHub.
 
 ```
 $ git clone https://github.com/google/gvisor.git
@@ -77,10 +74,7 @@ Resolving deltas: 100% (68220/68220), done.
 
 ## Build gVisor
 
-Once you have successfully edited the WORKSPACE file replacing the information needed to 
-successfully retrieve the necessary arm64 binaries you are ready to begin building gVisor
-on Ampere platforms.
-
+You can now build gVisor by simply executing the following command, which will will launch a containerized Bazel build environment to generate the needed binary.
 
 ```
 make runsc
