@@ -12,6 +12,7 @@
 * [Make the compiled binary available for use:](#make-the-compiled-binary-available-for-use)
 * [Update Docker for the gVisor Runtime](#update-docker-for-the-gvisor-runtime)
 * [Run gVisor](#run-gvisor)
+* [Running with KVM](#running-with-kvm)
 * [Further Reading](REFERENCES.md)
 
 
@@ -116,8 +117,21 @@ Update /etc/docker/daemon.json as follows:
      } 
 }
 ```
-### Run gVisor
+## Run gVisor
 
 ```
 docker run --runtime=runsc-ptrace hello-world
+```
+
+## Running with KVM
+The current tip-of-tree for gVisor has a recent update which breaks gVisor's KVM functionality for ARM64.  A fix is in progress, but the following can be used to pull the code when it last supported KVM on ARM64:
+
+```
+git clone https://github.com/google/gvisor.git
+git checkout 66d24bb692
+```
+Follow the build instructions as before.  To run with KVM, execute the following:
+
+```
+docker run --runtime=runsc-kvm hello-world
 ```
