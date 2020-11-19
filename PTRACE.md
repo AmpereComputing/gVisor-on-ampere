@@ -7,6 +7,7 @@
 * [Requirements](#requirements)
   * [Operating System](#operating-system)
   * [Kernel 5.5. or Newer](#kernel-5-5-or-newer)
+  * [Bazelbuild binaries](#bazelbuild-binaries)
 * [Download the gVisor Code](#download-the-gvisor-code)
 * [Build gVisor](#build-gvisor)
 * [Make the compiled binary available for use:](#make-the-compiled-binary-available-for-use)
@@ -58,6 +59,14 @@ If you are planning on using gVisor with KVM, the Linux Kernel Virtual Machine, 
 Obviously because the patches are already included in kernels 5.5 and newer we strong suggest staying on newer kernels for the best results.
 Please note: using ptrace with older kernels can be used, and may work however your results and experience may vary.  Additionally please note that the current gVisor implementations only support kernels configured with 4K-page sizes.
 
+### Bazelbuild binaries
+
+Basibuild binaries for arm64 are needed prior to building gVisor.  The latest binary releases can found on the project releases page located here:
+
+* [https://github.com/bazelbuild/bazel/releases/](https://github.com/bazelbuild/bazel/releases/)
+
+At the time of this writing bazel 3.4.1 and 3.7.0 have been used during the processes decribed below.
+
 ## Download the latest gVisor Code
 
 For the best experience with building gvisor, it is recommended that you pull the `master` branch directly from the [upstream source code](https://github.com/google/gvisor) located on GitHub.
@@ -98,7 +107,7 @@ sudo ln -s $(pwd)/<binary location from above> /usr/local/bin
 
 ## Update Docker for the gVisor Runtime
 
-Update /etc/docker/daemon.json as follows:
+Once we have installed the gVisor binaries into a directory located within the system PATH, we can then update the docker daemon to utilize the gvisor runtime.   To change the configuration of the docker daemon you will need to update the file `/etc/docker/daemon.json` as follows:
 
 ```
 {
@@ -117,6 +126,13 @@ Update /etc/docker/daemon.json as follows:
      } 
 }
 ```
+
+After updating your docker daemon configuration file, restart the docker daemon to ensure the changes take effect.
+
+```
+sudo systemctl restart docker
+```
+
 ## Run gVisor
 
 ```
