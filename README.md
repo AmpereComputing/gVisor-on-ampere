@@ -85,8 +85,8 @@ Resolving deltas: 100% (68220/68220), done.
 
 ## Build gVisor from source
 
-You can now build gVisor by simply executing the `make runsc`, which will will launch a containerized Bazel build environment to generate the needed binary.
-Output of the command will look similar to below.
+You can now build gVisor by simply executing the `make runsc` command, which will will launch a containerized Bazel build environment to generate the needed binary.
+Output of the command execution will look similar to below.
 
 ```
 # make runsc
@@ -155,7 +155,7 @@ Target //runsc:runsc up-to-date:
   bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc
 ```
 
-## Install compiled binary
+## Install the compiled binary
 
 Copy the compiled binary to a location in your path and make it executible.
 
