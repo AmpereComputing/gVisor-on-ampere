@@ -7,7 +7,6 @@
 * [Requirements](#requirements)
   * [Operating System](#operating-system)
   * [Kernel 5.5. or Newer](#kernel-5-5-or-newer)
-  * [Bazelbuild binaries](#bazelbuild-binaries)
 * [Download the gVisor Code](#download-the-gvisor-code)
 * [Build gVisor](#build-gvisor)
 * [Make the compiled binary available for use:](#make-the-compiled-binary-available-for-use)
@@ -58,6 +57,10 @@ If you are planning on using gVisor with KVM, the Linux Kernel Virtual Machine, 
 
 Obviously because the patches are already included in kernels 5.5 and newer we strong suggest staying on newer kernels for the best results.
 Please note: using ptrace with older kernels can be used, and may work however your results and experience may vary.  Additionally please note that the current gVisor implementations only support kernels configured with 4K-page sizes.
+
+Currently Ubuntu LTS includes a 5.4 kernel.  Mainline kernel packages for Ubuntu can be found in the Ubuntu Mainline Kernel Archive and installed onto the sytsem. The Ubuntu Mainline Kernel Archive can be found here:
+
+* [https://kernel.ubuntu.com/~/kernel-ppa/mainline/?C=N;O=D](https://kernel.ubuntu.com/~/kernel-ppa/mainline/?C=N;O=D)
 
 ### Bazelbuild binaries
 
