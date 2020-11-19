@@ -62,14 +62,6 @@ Currently Ubuntu LTS includes a 5.4 kernel.  Mainline kernel packages for Ubuntu
 
 * [https://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D](https://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D)
 
-### Bazelbuild binaries
-
-Basibuild binaries for arm64 are needed prior to building gVisor.  The latest binary releases can found on the project releases page located here:
-
-* [https://github.com/bazelbuild/bazel/releases/](https://github.com/bazelbuild/bazel/releases/)
-
-At the time of this writing bazel 3.4.1 and 3.7.0 have been used during the processes decribed below.
-
 ## Download the latest gVisor code
 
 For the best experience with building gvisor, it is recommended that you pull the `master` branch directly from the [upstream source code](https://github.com/google/gvisor) located on GitHub.
