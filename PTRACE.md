@@ -11,9 +11,9 @@
 * [Download the gVisor Code](#download-the-gvisor-code)
 * [Build gVisor-from-source](#build-gvisor-from-source)
 * [Install the compiled binary](#install-the-compiled-binary)
-* [Update Docker to use the gVisor runtime](#update-docker-to-use-the-gvisor-runtime)
-* [Run a conttainer with runsc-ptrace](#run-a-container-with-runsc-ptrace)
-* [Running with KVM](#running-with-kvm)
+* [Update Docker to use the gVisor runtimes](#update-docker-to-use-the-gvisor-runtimes)
+* [Run a conttainer using runsc-ptrace](#run-a-container-using-runsc-ptrace)
+* [Run a conttainer using runsc-kvm](#run-a-container-using-runsc-kvm)
 * [Further Reading](REFERENCES.md)
 
 
@@ -165,7 +165,7 @@ cp /usr/local/src/gvizor/bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/
 chmod 0777 /usr/local/bin/runsc
 ```
 
-## Update Docker for the gVisor Runtime
+## Update Docker to use the gVisor runtimes
 
 Once we have installed the gVisor binaries into a directory located within the system PATH, we can then update the docker daemon to utilize the gvisor runtime.   To change the configuration of the docker daemon you will need to update the file `/etc/docker/daemon.json` as follows:
 
@@ -261,9 +261,9 @@ Take notice that the runtimes for runsc-kvm and runsc-ptrace show up in the runn
  Runtimes: runsc-kvm runsc-ptrace runc
  ```
 
-## Run a container with gVisor
+## Run a conttainer using runsc-ptrace
 
-In order to use gVisor we must pass in the `--runtime=runsc-ptrace` as part of the `docker run` command in order to select the runtime for use.
+In order to use the gVisor runsc-ptrace we must pass in the `--runtime=runsc-ptrace` as part of the `docker run` command in order to select the runtime for use.
 The following command is an example of running a hello-world container using the runsc gvisor runtime.
 
 ```
