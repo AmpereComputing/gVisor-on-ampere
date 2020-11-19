@@ -46,6 +46,12 @@ For more in depth details on the OS requirements and installation of gVisor plea
 
 * [https://gvisor.dev](https://gvisor.dev)
 
+### Docker
+
+Docker version 17.09.0 or greater is required for use with gVisor.  Further reading on the docker requirements can be found in gVisor's `Docker Quick Start` located at the link below.
+
+* [https://gvisor.dev/docs/user_guide/quick_start/docker/](https://gvisor.dev/docs/user_guide/quick_start/docker/)
+
 
 ### Kernel 5.5 or newer
 
