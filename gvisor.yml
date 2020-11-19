@@ -40,8 +40,6 @@
       - golang
       - unzip
       - zip
-    # Started w/ 3.4.1
-    bazel_version: "3.4.1"
   handlers:
     - name: Restart Docker
       service:
@@ -53,7 +51,6 @@
         name: "{{ packages }}"
         state: present
         update_cache: true
-
     - name: Use git to retrieve gvisor source
       git:
         repo: https://github.com/google/gvisor
@@ -61,14 +58,12 @@
         clone: true
         update: true
         force: true
-
     - name: Build Gvisor
       become: false
       command: 'make runsc'
       ignore_errors: yes
       args:
         chdir: "{{ src_path }}/gvisor"
-
     - name: "Copy runsc to {{ bin_path }}"
       copy:
         src: "{{ src_path }}/gvisor/bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc"
@@ -77,32 +72,26 @@
         group: "{{ group }}"
         mode: "0777"
         remote_src: yes
-
     - name: get the runsc version
       command:
         cmd: "/usr/local/bin/runsc --version"
       register: runsc_build_version
-
     - debug:
         msg: "{{ runsc_build_version }}"
-
     - name: "Enable gVisor runtime in docker config /etc/docker/daemon.json"
       template:
         dest: "/etc/docker/daemon.json"
         src: "docker.json.j2"
       notify:
         - Restart Docker
-
     - name: Flush Handlers
       meta: flush_handlers
-
     - name: Run hello-world with runsc-ptrace
       docker_container:
         docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
         name: hello-world-runsc-ptrace
         image: hello-world
         runtime: runsc-ptrace
-
     - name: Run ubuntu dmesg with runsc-ptrace
       docker_container:
         docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
@@ -110,15 +99,12 @@
         image: ubuntu
         command: dmesg
         runtime: runsc-ptrace
-
     - name: Run hello-world with runsc-kvm
       docker_container:
         docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
         name: hello-world-runsc-kvm
         image: hello-world
         runtime: runsc-kvm
-
-
     - name: Run ubuntu dmesg with runsc-kvm
       docker_container:
         docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
@@ -126,4 +112,3 @@
         image: ubuntu
         command: dmesg
         runtime: runsc-kvm
-
