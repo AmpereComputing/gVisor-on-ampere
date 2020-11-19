@@ -144,6 +144,66 @@ After updating your docker daemon configuration file, restart the docker daemon 
 sudo systemctl restart docker
 ```
 
+Next verify the changes have taken by running the `docker info` command.  THe output should look as follows:
+
+```
+root@raptor:/etc/docker# docker info
+Client:
+ Debug Mode: false
+
+Server:
+ Containers: 36
+  Running: 0
+  Paused: 0
+  Stopped: 36
+ Images: 223
+ Server Version: 19.03.13
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: true
+  Native Overlay Diff: true
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: runsc-kvm runsc-ptrace runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 8fba4e9a7d01810a393d5d25a3621dc101981175
+ runc version: dc9208a3303feef5b3839f4323d9beb36df0a9dd
+ init version: fec3683
+ Security Options:
+  apparmor
+  seccomp
+   Profile: default
+ Kernel Version: 5.8.0-29-generic
+ Operating System: Ubuntu 20.10
+ OSType: linux
+ Architecture: aarch64
+ CPUs: 32
+ Total Memory: 249.9GiB
+ Name: raptor
+ ID: TIMU:66I7:UQK4:YLPK:KZCL:RLBG:IZRC:N2UX:LTNP:5HAC:P3YL:UXHP
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Username: ppouliot
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+```
+
+Take notice that the runtimes for runsc-kvm and runsc-ptrace show up in the running configuration by verifying the following line:
+
+```
+ Runtimes: runsc-kvm runsc-ptrace runc
+ ```
+
 ## Run gVisor
 
 ```
