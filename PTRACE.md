@@ -113,21 +113,31 @@ sudo ln -s $(pwd)/<binary location from above> /usr/local/bin
 Once we have installed the gVisor binaries into a directory located within the system PATH, we can then update the docker daemon to utilize the gvisor runtime.   To change the configuration of the docker daemon you will need to update the file `/etc/docker/daemon.json` as follows:
 
 ```
-{
-  "runtimes": {
-    "runsc-ptrace": {
-      "path": "/usr/local/bin/runsc",
-      "runtimeArgs": [
-        "--platform=ptrace"
-       ]
-     },
-     "runsc-kvm": {
-       "path": "/usr/local/bin/runsc",
-       "runtimeArgs": [
-         "--platform=kvm"
-        ]
-     } 
+[11:43 AM] Arjun Khare
+    {​​​​​​​
+    "dns": ["10.0.100.1"],
+    "runtimes": {
+        "runsc-ptrace": {
+            "path": "/usr/local/bin/runsc",
+            "runtimeArgs": [
+                "--platform=ptrace",
+                "--debug-log=/tmp/runsc/",
+                "--debug",
+                "--strace"
+            ]
+        },
+        "runsc-kvm": {
+            "path": "/usr/local/bin/runsc",
+            "runtimeArgs": [
+                "--platform=kvm",
+                "--debug-log=/tmp/runsc/",
+                "--debug",
+                "--strace"
+            ]
+        }
+    }
 }
+
 ```
 
 After updating your docker daemon configuration file, restart the docker daemon to ensure the changes take effect.
