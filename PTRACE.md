@@ -118,7 +118,7 @@ Once we have installed the gVisor binaries into a directory located within the s
         "--platform=ptrace"
        ]
      },
-     “runsc-kvm": {
+     "runsc-kvm": {
        "path": "/usr/local/bin/runsc",
        "runtimeArgs": [
          "--platform=kvm"
