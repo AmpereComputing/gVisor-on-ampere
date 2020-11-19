@@ -261,7 +261,7 @@ Take notice that the runtimes for runsc-kvm and runsc-ptrace show up in the runn
  Runtimes: runsc-kvm runsc-ptrace runc
  ```
 
-## Run a conttainer using runsc-ptrace
+## Run a container using runsc-ptrace
 
 In order to use the gVisor runsc-ptrace we must pass in the `--runtime=runsc-ptrace` as part of the `docker run` command in order to select the runtime for use.
 The following command is an example of running a hello-world container using the runsc gvisor runtime.
@@ -324,7 +324,7 @@ dmesg: read kernel buffer failed: Operation not permitted
 
 
 
-## Run a conttainer using runsc-kvm
+## Run a container using runsc-kvm
 
 To use kvm instead of ptrace is simply a matter of substituting the name of the runtime as follows:
 
