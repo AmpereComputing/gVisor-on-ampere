@@ -538,8 +538,8 @@ The jinja template used for the docker daemon.json configuration:
 
 Both files are included within this repository at the links below:
 
-* [ansible/gvisor.yml](gvisor.yml)
-* [ansible/docker.json.j2](docker.json.j2)
+* [gvisor.yml](gvisor.yml)
+* [docker.json.j2](docker.json.j2)
 
 ## References
 
