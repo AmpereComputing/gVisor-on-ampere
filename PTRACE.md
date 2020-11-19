@@ -8,9 +8,9 @@
   * [Operating System](#operating-system)
   * [Kernel 5.5. or Newer](#kernel-5-5-or-newer)
 * [Download the gVisor Code](#download-the-gvisor-code)
-* [Build gVisor](#build-gvisor)
-* [Install compiled binary:](#install-compiled-binary)
-* [Update Docker for the gVisor Runtime](#update-docker-for-the-gvisor-runtime)
+* [Build gVisor-from-source](#build-gvisor-from-source)
+* [Install the compiled binary](#install-the-compiled-binary)
+* [Update Docker to use the gVisor runtime](#update-docker-to-use-the-gvisor-runtime)
 * [Run a conttainer with gVisor](#run-a-container-with-gvisor)
 * [Running with KVM](#running-with-kvm)
 * [Further Reading](REFERENCES.md)
@@ -70,7 +70,7 @@ Basibuild binaries for arm64 are needed prior to building gVisor.  The latest bi
 
 At the time of this writing bazel 3.4.1 and 3.7.0 have been used during the processes decribed below.
 
-## Download the latest gVisor Code
+## Download the latest gVisor code
 
 For the best experience with building gvisor, it is recommended that you pull the `master` branch directly from the [upstream source code](https://github.com/google/gvisor) located on GitHub.
 
@@ -85,7 +85,7 @@ Receiving objects: 100% (91378/91378), 60.10 MiB | 25.60 MiB/s, done.
 Resolving deltas: 100% (68220/68220), done.
 ```
 
-## Build gVisor
+## Build gVisor from source
 
 You can now build gVisor by simply executing the `make runsc`, which will will launch a containerized Bazel build environment to generate the needed binary.
 Output of the command will look similar to below.
@@ -147,11 +147,10 @@ INFO: Elapsed time: 150.855s, Critical Path: 62.34s
 INFO: 1613 processes: 1613 linux-sandbox.
 INFO: Build completed successfully, 1649 total actions
 make[1]: Leaving directory '/usr/local/src/gvisor'
-
 ```
 
 At the end of the compile, the output will have a statement similar to the following,
-which indicates the location of the runsc binary:
+which indicates the location of the freshly compiled runsc binary:
 
 ```
 Target //runsc:runsc up-to-date:
