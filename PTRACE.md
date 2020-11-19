@@ -9,9 +9,9 @@
   * [Kernel 5.5. or Newer](#kernel-5-5-or-newer)
 * [Download the gVisor Code](#download-the-gvisor-code)
 * [Build gVisor](#build-gvisor)
-* [Make the compiled binary available for use:](#make-the-compiled-binary-available-for-use)
+* [Install compiled binary:](#install-compiled-binary)
 * [Update Docker for the gVisor Runtime](#update-docker-for-the-gvisor-runtime)
-* [Run gVisor](#run-gvisor)
+* [Run a conttainer with gVisor](#run-a-container-with-gvisor)
 * [Running with KVM](#running-with-kvm)
 * [Further Reading](REFERENCES.md)
 
@@ -87,10 +87,67 @@ Resolving deltas: 100% (68220/68220), done.
 
 ## Build gVisor
 
-You can now build gVisor by simply executing the following command, which will will launch a containerized Bazel build environment to generate the needed binary.
+You can now build gVisor by simply executing the `make runsc`, which will will launch a containerized Bazel build environment to generate the needed binary.
+Output of the command will look similar to below.
 
 ```
-make runsc
+# make runsc
+make build OPTIONS="-c opt" TARGETS="//runsc"
+make[1]: Entering directory '/usr/local/src/gvisor'
+Error: No such container: gvisor-bazel-d1b91a5d
+make[2]: Entering directory '/usr/local/src/gvisor'
+make -C images load-default
+make[3]: Entering directory '/usr/local/src/gvisor/images'
+make pull-default || make rebuild-default
+make[4]: Entering directory '/usr/local/src/gvisor/images'
+docker pull  gcr.io/gvisor-presubmit/default_aarch64:b633fc901d737471
+b633fc901d737471: Pulling from gvisor-presubmit/default_aarch64
+Digest: sha256:50232d4b6ee2f5608bf1ed4de18ca1c8217296b1bb44c5cbf2543f8d88c6b716
+Status: Image is up to date for gcr.io/gvisor-presubmit/default_aarch64:b633fc901d737471
+gcr.io/gvisor-presubmit/default_aarch64:b633fc901d737471
+make[4]: Leaving directory '/usr/local/src/gvisor/images'
+docker tag gcr.io/gvisor-presubmit/default_aarch64:b633fc901d737471 gvisor.dev/images/default
+make[3]: Leaving directory '/usr/local/src/gvisor/images'
+docker run --user 0:0 --entrypoint "" --name gvisor-builder-d1b91a5d \
+	gvisor.dev/images/default \
+	sh -c "groupadd --gid 998 --non-unique docker-d1b91a5d && groupadd --gid 108 --non-unique kvm-d1b91a5d && \
+	        \
+	       if [[ -e /dev/kvm ]]; then chmod a+rw /dev/kvm; fi"
+docker commit gvisor-builder-d1b91a5d gvisor.dev/images/builder
+sha256:819d928bd7649ca98f09f21b5c231b8e89128adce89698c60fa8681a8879e590
+gvisor-builder-d1b91a5d
+# This command runs a bazel server, and the container sticks around
+# until the bazel server exits. This should ensure that it does not
+# exit in the middle of running a build, but also it won't stick around
+# forever. The build commands wrap around an appropriate exec into the
+# container in order to perform work via the bazel client.
+docker run -d --rm --name gvisor-bazel-d1b91a5d \
+	-v "/usr/local/src/gvisor:/usr/local/src/gvisor" \
+	--workdir "/usr/local/src/gvisor" \
+	--user 0:0 --entrypoint "" --init -v "/root/.cache/bazel:/root/.cache/bazel" -v "/root/.config/gcloud:/root/.config/gcloud" -v "/tmp:/tmp" -v "/var/run/docker.sock:/var/run/docker.sock" -v "/etc/docker/daemon.json:/etc/docker/daemon.json" --privileged --group-add 998 --device=/dev/kvm --group-add 108 \
+	gvisor.dev/images/builder \
+	sh -c "tail -f --pid=\$(bazel  info server_pid) /dev/null"
+f01fb2b5e3b59324c14fa91e9511dad7069a8e3a9470565a932a73444d82a4b7
+make[2]: Leaving directory '/usr/local/src/gvisor'
+Another command holds the client lock: 
+pid=7
+owner=client
+cwd=/usr/local/src/gvisor
+
+Waiting for it to complete...
+Another command (pid=7) is running.  Waiting for it to complete on the server...
+DEBUG: /root/.cache/bazel/_bazel_root/13221ba0b7e9fde51c3391866c0ad16c/external/bazel_toolchains/rules/rbe_repo/version_check.bzl:68:14: 
+Current running Bazel is ahead of bazel-toolchains repo. Please update your pin to bazel-toolchains repo in your WORKSPACE file.
+DEBUG: /root/.cache/bazel/_bazel_root/13221ba0b7e9fde51c3391866c0ad16c/external/bazel_toolchains/rules/rbe_repo/checked_in.bzl:125:14: rbe_default not using checked in configs; Bazel version 3.4.1 was picked/selected but no checked in config was found in map {"0.20.0": ["8.0.0"], "0.21.0": ["8.0.0"], "0.22.0": ["8.0.0", "9.0.0"], "0.23.0": ["8.0.0", "9.0.0"], "0.23.1": ["8.0.0", "9.0.0"], "0.23.2": ["9.0.0"], "0.24.0": ["9.0.0"], "0.24.1": ["9.0.0"], "0.25.0": ["9.0.0"], "0.25.1": ["9.0.0"], "0.25.2": ["9.0.0"], "0.26.0": ["9.0.0"], "0.26.1": ["9.0.0"], "0.27.0": ["9.0.0"], "0.27.1": ["9.0.0"], "0.28.0": ["9.0.0"], "0.28.1": ["9.0.0"], "0.29.0": ["9.0.0"], "0.29.1": ["9.0.0", "10.0.0"], "1.0.0": ["9.0.0", "10.0.0"], "1.0.1": ["10.0.0"], "1.1.0": ["10.0.0"], "1.2.0": ["10.0.0"], "1.2.1": ["10.0.0"], "2.0.0": ["10.0.0"], "2.1.0": ["10.0.0"], "2.1.1": ["10.0.0", "11.0.0"], "2.2.0": ["11.0.0"], "3.0.0": ["11.0.0"], "3.1.0": ["11.0.0"]}
+INFO: Analyzed target //runsc:runsc (325 packages loaded, 11571 targets configured).
+INFO: Found 1 target...
+Target //runsc:runsc up-to-date:
+  bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc
+INFO: Elapsed time: 150.855s, Critical Path: 62.34s
+INFO: 1613 processes: 1613 linux-sandbox.
+INFO: Build completed successfully, 1649 total actions
+make[1]: Leaving directory '/usr/local/src/gvisor'
+
 ```
 
 At the end of the compile, the output will have a statement similar to the following,
@@ -101,11 +158,13 @@ Target //runsc:runsc up-to-date:
   bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc
 ```
 
-## Make the compiled binary available for use:
+## Install compiled binary
+
+Copy the copiled binary to a location in the path and make it executible.
 
 ```
-sudo rm -f /usr/local/bin/runsc
-sudo ln -s $(pwd)/<binary location from above> /usr/local/bin
+cp /usr/local/src/gvizor/bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc /usr/local/bin
+chmod 0777 /usr/local/bin/runsc
 ```
 
 ## Update Docker for the gVisor Runtime
@@ -204,7 +263,10 @@ Take notice that the runtimes for runsc-kvm and runsc-ptrace show up in the runn
  Runtimes: runsc-kvm runsc-ptrace runc
  ```
 
-## Run gVisor
+## Run a container with gVisor
+
+In order to use gVisor we must pass in the `--runtime=runsc-ptrace` as part of the `docker run` command in order to select the runtime for use.
+The following is an example of running a hello-world container using the runsc gvisor runtime.
 
 ```
 docker run --runtime=runsc-ptrace hello-world
