@@ -56,7 +56,7 @@ Docker version 17.09.0 or greater is required for use with gVisor.  Further read
 ### Kernel 5.5 or newer
 
 As discussed earlier, gVisor requires a platform to implement the intercepting sandboxing mechanisms, and currently `ptrace` and `KVM` are implemented.
-If you are planning on using gVisor with KVM, the Linux Kernel Virtual Machine, then it is necessary to use a specific Linux Kernel version which includes the necessary patches to enable usage on Arm64.  Currently the Linux Kernel 5.5 includes the necessary patch for KVM.  Further information and reading on the patches that for enabling usage of KVM as the gVisor platform please consult the information located here: 
+If you are planning on using gVisor with KVM, the Linux Kernel Virtual Machine, then it is necessary to use a specific Linux Kernel version which includes the necessary patches to enable usage on Arm64.  Currently the Linux Kernel 5.5 includes the necessary patch for KVM.  Further information and reading on the patches  for enabling usage with KVM can be found here: 
 
 * [https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u](https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u
 )
