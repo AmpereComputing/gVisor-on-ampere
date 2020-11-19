@@ -60,7 +60,7 @@ Please note: using ptrace with older kernels can be used, and may work however y
 
 Currently Ubuntu LTS includes a 5.4 kernel.  Mainline kernel packages for Ubuntu can be found in the Ubuntu Mainline Kernel Archive and installed onto the sytsem. The Ubuntu Mainline Kernel Archive can be found here:
 
-* [https://kernel.ubuntu.com/~/kernel-ppa/mainline/?C=N;O=D](https://kernel.ubuntu.com/~/kernel-ppa/mainline/?C=N;O=D)
+* [https://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D](https://kernel.ubuntu.com/~kernel-ppa/mainline/?C=N;O=D)
 
 ### Bazelbuild binaries
 
