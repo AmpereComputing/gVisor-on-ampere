@@ -424,8 +424,6 @@ The ansible code is as follows:
       - golang
       - unzip
       - zip
-    # Started w/ 3.4.1
-    bazel_version: "3.4.1"
   handlers:
     - name: Restart Docker
       service:
