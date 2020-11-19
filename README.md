@@ -482,14 +482,14 @@ The ansible code is as follows:
 
     - name: Run hello-world with runsc-ptrace
       docker_container:
-        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        docker_host: "tcp://{{ ansible_default_ipv4.address }}:2375"
         name: hello-world-runsc-ptrace
         image: hello-world
         runtime: runsc-ptrace
 
     - name: Run ubuntu dmesg with runsc-ptrace
       docker_container:
-        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        docker_host: "tcp://{{ ansible_default_ipv4.address }}:2375"
         name: ubuntu-dmesg-runsc-ptrace
         image: ubuntu
         command: dmesg
@@ -497,14 +497,14 @@ The ansible code is as follows:
 
     - name: Run hello-world with runsc-kvm
       docker_container:
-        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        docker_host: "tcp://{{ ansible_default_ipv4.address }}:2375"
         name: hello-world-runsc-kvm
         image: hello-world
         runtime: runsc-kvm
 
     - name: Run ubuntu dmesg with runsc-kvm
       docker_container:
-        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        docker_host: "tcp://{{ ansible_default_ipv4.address }}:2375"
         name: ubuntu-dmesg-runsc-kvm
         image: ubuntu
         command: dmesg
