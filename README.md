@@ -157,7 +157,7 @@ Target //runsc:runsc up-to-date:
 
 ## Install compiled binary
 
-Copy the copiled binary to a location in your path and make it executible.
+Copy the compiled binary to a location in your path and make it executible.
 
 ```
 cp /usr/local/src/gvizor/bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc /usr/local/bin
