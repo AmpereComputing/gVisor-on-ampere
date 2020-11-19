@@ -113,8 +113,7 @@ sudo ln -s $(pwd)/<binary location from above> /usr/local/bin
 Once we have installed the gVisor binaries into a directory located within the system PATH, we can then update the docker daemon to utilize the gvisor runtime.   To change the configuration of the docker daemon you will need to update the file `/etc/docker/daemon.json` as follows:
 
 ```
-[11:43 AM] Arjun Khare
-    {​​​​​​​
+{
     "dns": ["10.0.100.1"],
     "runtimes": {
         "runsc-ptrace": {
