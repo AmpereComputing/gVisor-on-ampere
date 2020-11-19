@@ -12,7 +12,7 @@
 * [Build gVisor-from-source](#build-gvisor-from-source)
 * [Install the compiled binary](#install-the-compiled-binary)
 * [Update Docker to use the gVisor runtime](#update-docker-to-use-the-gvisor-runtime)
-* [Run a conttainer with gVisor](#run-a-container-with-gvisor)
+* [Run a conttainer with runsc-ptrace](#run-a-container-with-runsc-ptrace)
 * [Running with KVM](#running-with-kvm)
 * [Further Reading](REFERENCES.md)
 
