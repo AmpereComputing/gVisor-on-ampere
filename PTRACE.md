@@ -114,7 +114,6 @@ Once we have installed the gVisor binaries into a directory located within the s
 
 ```
 {
-    "dns": ["10.0.100.1"],
     "runtimes": {
         "runsc-ptrace": {
             "path": "/usr/local/bin/runsc",
