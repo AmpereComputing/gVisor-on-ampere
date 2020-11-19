@@ -15,9 +15,7 @@
 * [Run a conttainer using runsc-ptrace](#run-a-container-using-runsc-ptrace)
 * [Run a conttainer using runsc-kvm](#run-a-container-using-runsc-kvm)
 * [All the steps in ansible](#all-the-steps-in-ansible)
-* [Further Reading](REFERENCES.md)
-
-
+* [References](#references)
 
 ## Introduction
 
@@ -545,4 +543,18 @@ Both files are included within this repository at the links below:
 * [ansible/gvisor.yml](ansible/gvisor.yml)
 * [ansible/docker.json.j2](ansible/docker.json.j2)
 
+## References
+
+The following references were used as research to write this article.
+
+* [gVisor](https://github.com/google/gvisor)
+* [gVisor contributors](https://github.com/google/gvisor/graphs/contributors)
+* [gVisor project data](https://github.com/google/gvisor/pulse)
+* [gVisor Documentation](https://gvisor.dev/docs/)
+* [gVisor ARM Compatibility](https://gvisor.dev/docs/user_guide/compatibility/linux/arm64/)
+* [Open Container Initiative (OCI)](https://opencontainers.org/)
+* [https://gvisor.dev/docs/architecture_guide/platforms/#implementations](https://gvisor.dev/docs/architecture_guide/platforms/#implementations)
+* [https://gvisor.dev](https://gvisor.dev)
+* [https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u](https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u)
+* [The "patch" mentioned in the *Update to Kernel 5.5"](https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u)
 
