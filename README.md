@@ -12,8 +12,8 @@
 * [Build gVisor-from-source](#build-gvisor-from-source)
 * [Install the compiled binary](#install-the-compiled-binary)
 * [Update Docker to use the gVisor runtimes](#update-docker-to-use-the-gvisor-runtimes)
-* [Run a conttainer using runsc-ptrace](#run-a-container-using-runsc-ptrace)
-* [Run a conttainer using runsc-kvm](#run-a-container-using-runsc-kvm)
+* [Run a container using runsc-ptrace](#run-a-container-using-runsc-ptrace)
+* [Run a container using runsc-kvm](#run-a-container-using-runsc-kvm)
 * [All the steps in ansible](#all-the-steps-in-ansible)
 * [References](#references)
 
