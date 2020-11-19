@@ -1,0 +1,22 @@
+{
+    "runtimes": {
+        "runsc-ptrace": {
+            "path": "{{ bin_path }}/runsc",
+            "runtimeArgs": [
+                "--platform=ptrace",
+                "--debug-log=/tmp/runsc/",
+                "--debug",
+                "--strace"
+            ]
+        },
+        "runsc-kvm": {
+            "path": "{{ bin_path }}/runsc",
+            "runtimeArgs": [
+                "--platform=kvm",
+                "--debug-log=/tmp/runsc/",
+                "--debug",
+                "--strace"
+            ]
+        }
+    }
+}
