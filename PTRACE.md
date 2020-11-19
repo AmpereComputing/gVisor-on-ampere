@@ -14,6 +14,7 @@
 * [Update Docker to use the gVisor runtimes](#update-docker-to-use-the-gvisor-runtimes)
 * [Run a conttainer using runsc-ptrace](#run-a-container-using-runsc-ptrace)
 * [Run a conttainer using runsc-kvm](#run-a-container-using-runsc-kvm)
+* [All the steps in ansible](#all-the-steps-in-ansible)
 * [Further Reading](REFERENCES.md)
 
 
@@ -375,4 +376,170 @@ As we did with the runsc-ptrace runtime, let's now try to use the runsc-kvm runt
 [    2.434705] Adversarially training Redcode AI...
 [    2.511895] Ready!
 ```
+
+## All the steps in ansible
+
+To make things easier the steps above have been captures as ansible.   Two files, the ansible code itself and a template for the docker deamon.json file are needed.
+
+The ansible code is as follows:
+
+```
+#!/usr/bin/env ansible-playbook
+---
+- name: "Build and Install gvisor on linux aarch64"
+  hosts: all
+  any_errors_fatal: true
+  gather_facts: true
+  become: true
+  become_method: sudo
+  become_flags: '-E'
+  any_errors_fatal: True
+  order: sorted
+  gather_facts: True
+  vars:
+    bin_path: "/usr/local/bin"
+    src_path: "/usr/local/src"
+    user: "root"
+    group: "root"
+    packages:
+      - aptitude
+      - screen
+      - sudo
+      - rsync
+      - git
+      - curl
+      - byobu
+      - asciinema
+      - python3-dev
+      - python3-pip
+      - python3-selinux
+      - python3-setuptools
+      - python3-virtualenv
+      - libffi-dev
+      - gcc
+      - g++
+      - apt-transport-https
+      - ca-certificates
+      - gnupg-agent
+      - software-properties-common
+      - build-essential
+      - golang
+      - unzip
+      - zip
+    # Started w/ 3.4.1
+    bazel_version: "3.4.1"
+  handlers:
+    - name: Restart Docker
+      service:
+        name: "docker"
+        state: restarted
+  tasks:
+    - name: Installing Base Packages
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: true
+
+    - name: Use git to retrieve gvisor source
+      git:
+        repo: https://github.com/google/gvisor
+        dest: "{{ src_path }}/gvisor"
+        clone: true
+        update: true
+        force: true
+
+    - name: Build Gvisor
+      become: false
+      command: 'make runsc'
+      ignore_errors: yes
+      args:
+        chdir: "{{ src_path }}/gvisor"
+
+    - name: "Copy runsc to {{ bin_path }}"
+      copy:
+        src: "{{ src_path }}/gvisor/bazel-out/aarch64-opt-ST-5e46445d989a/bin/runsc/runsc_/runsc"
+        dest: "{{ bin_path }}/runsc"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        mode: "0777"
+        remote_src: yes
+
+    - name: get the runsc version
+      command:
+        cmd: "/usr/local/bin/runsc --version"
+      register: runsc_build_version
+
+    - debug:
+        msg: "{{ runsc_build_version }}"
+
+    - name: "Enable gVisor runtime in docker config /etc/docker/daemon.json"
+      template:
+        dest: "/etc/docker/daemon.json"
+        src: "docker.json.j2"
+      notify:
+        - Restart Docker
+
+    - name: Flush Handlers
+      meta: flush_handlers
+
+    - name: Run hello-world with runsc-ptrace
+      docker_container:
+        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        name: hello-world-runsc-ptrace
+        image: hello-world
+        runtime: runsc-ptrace
+
+    - name: Run ubuntu dmesg with runsc-ptrace
+      docker_container:
+        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        name: ubuntu-dmesg-runsc-ptrace
+        image: ubuntu
+        command: dmesg
+        runtime: runsc-ptrace
+
+    - name: Run hello-world with runsc-kvm
+      docker_container:
+        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        name: hello-world-runsc-kvm
+        image: hello-world
+        runtime: runsc-kvm
+
+    - name: Run ubuntu dmesg with runsc-kvm
+      docker_container:
+        docker_host: tcp://{{ ansible_default_ipv4.address }}:2375
+        name: ubuntu-dmesg-runsc-kvm
+        image: ubuntu
+        command: dmesg
+        runtime: runsc-kvm
+```
+
+The jinja template used for the docker daemon.json configuration:
+
+```
+{
+    "runtimes": {
+        "runsc-ptrace": {
+            "path": "{{ bin_path }}/runsc",
+            "runtimeArgs": [
+                "--platform=ptrace",
+                "--debug-log=/tmp/runsc/",
+                "--debug",
+                "--strace"
+            ]
+        },
+        "runsc-kvm": {
+            "path": "{{ bin_path }}/runsc",
+            "runtimeArgs": [
+                "--platform=kvm",
+                "--debug-log=/tmp/runsc/",
+                "--debug",
+                "--strace"
+            ]
+        }
+    }
+}
+```
+
+Both files are included within this repository.
+
 
