@@ -19,9 +19,9 @@
 
 ## Introduction
 
-Here at [Ampere Computing](https://amperecomputing.com) we are always interested in emerging cloud native technologies as interesting workloads for our cloud optimized Ampere(R) Altra(TM) Arm64 processors. [gVisor](https://github.com/google/gvisor) is an active open source software project originally created by Google that provides an application kernel for containers. The [gVisor](https://github.com/google/gvisor) project ecosystem and community of [contributors](https://github.com/google/gvisor/graphs/contributors) continues to make regular improvements to gVisor for ARM64 platforms.  In fact, in recent months, [ARM64 improvements](https://github.com/google/gvisor/pulse) have been coming in almost weekly.  
+Here at [Ampere Computing](https://amperecomputing.com) we are always interested in emerging cloud native technologies as interesting workloads for our cloud- native Ampere(R) Altra(TM) Arm64 processors. [gVisor](https://github.com/google/gvisor) is an active open source software project originally created by Google that provides an application kernel for containers. The [gVisor](https://github.com/google/gvisor) project ecosystem and community of [contributors](https://github.com/google/gvisor/graphs/contributors) continues to make regular improvements to gVisor for Arm64 platforms.  In fact, in recent months, [ARM64 improvements](https://github.com/google/gvisor/pulse) have been coming in almost weekly.  
 
-From a technology perspective, [gVisor](https://github.com/google/gvisor) was written in [Golang](https://golang.org/) and is often used as a method to sandbox application containers by providing a substantial portion of the Linux operating system surface. Sandboxing can be thought of as an isolation boundary for greater security between the application and the Linux kernel running on the host.  This isolation boundary, or `sandbox` between the application and the host kernel is provided by gVisor's `runsc` binary.  The `runsc` binary implements an [Open Container Initiative (OCI)](https://opencontainers.org/) compliant runtime which integrates with Docker and Kubernetes, making it simple to run sandboxed containers in cloud native environments.
+From a technology perspective, [gVisor](https://github.com/google/gvisor) was written in [Golang](https://golang.org/) and is often used as a method to sandbox application container by providing a substantial portion of the Linux operating system surface. Sandboxing can be thought of as an isolation boundary for greater security between the application and the Linux kernel running on the host.  This isolation boundary, or `sandbox` between the application and the host kernel is provided by gVisor's `runsc` binary.  The `runsc` binary implements an [Open Container Initiative (OCI)](https://opencontainers.org/) compliant runtime which integrates with Docker and Kubernetes, making it simple to run sandboxed containers in cloud native environments.
 
 gVisor currently requires an abstraction which it calls a `platform` to implement the sandboxing mechanisms; currently available platforms are `ptrace` and `KVM`.  There are different tradeoffs between each `Platform` which generally are focused around performance and hardware requirements for running gVisor.  To describe it in an overly simplistic way, the platform implemention depends on the context in which `runsc` is executing, for example virtualized platforms would be limited to systems that do not require hardware virtualization.  The `ptrace` platform executes user code with out allowing it to execute host system calls, whereas the KVM platform uses kernel and hardware virtualization to allow gVisor to act as both guest OS and Virtual Machine Manager.  For more information regarding gVisor platforms please consult with upstream documenation on the subject located here:
 
@@ -38,7 +38,7 @@ At the time of this writing Ubuntu 20.04 was the ideal choice of OS gVisor based
 
 * [http://cdimage.ubuntu.com/ubuntu/releases/20.04.1/release/ubuntu-20.04.1-live-server-arm64.iso](http://cdimage.ubuntu.com/ubuntu/releases/20.04.1/release/ubuntu-20.04.1-live-server-arm64.iso)
 
-Additionally further instructions for installing Ubuntu on Arm64 can be found in the *Offical Ubuntu instalation Guide for Arm64* which can be found at the following url:
+Additionally further instructions for installing Ubuntu on Arm64 can be found in the *Offical Ubuntu instalation Guide for Arm64* at the following url:
 
 * https://help.ubuntu.com/lts/installation-guide/arm64/index.html
 
@@ -61,7 +61,7 @@ If you are planning on using gVisor with KVM, the Linux Kernel Virtual Machine, 
 * [https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u](https://lore.kernel.org/kvmarm/20191206020802.196108-1-justin.he@arm.com/t/#u
 )
 
-Obviously because the patches are already included in kernels 5.5 and newer we strong suggest staying on newer kernels for the best results.
+Obviously because the patches are already included in kernels 5.5 and newer, we strongly suggest staying on newer kernels for the best results.
 Please note: using ptrace with older kernels can be used, and may work however your results and experience may vary.  Additionally please note that the current gVisor implementations only support kernels configured with 4K-page sizes.
 
 Currently Ubuntu LTS includes a 5.4 kernel.  Mainline kernel packages for Ubuntu can be found in the Ubuntu Mainline Kernel Archive and installed onto the sytsem. The Ubuntu Mainline Kernel Archive can be found here:
